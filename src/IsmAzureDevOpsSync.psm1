@@ -5,11 +5,6 @@ function Get-Values($o,[string]$name){
   $p=$o.PSObject.Properties['props']; if(-not $p){return @()}
   @($p.Value|Where-Object name -eq $name|ForEach-Object{[string]$_.value})
 }
-function ConvertTo-Html([string]$text){
-  if([string]::IsNullOrWhiteSpace($text)){return ''}
-  $e=[Net.WebUtility]::HtmlEncode($text)
-  '<p>'+((($e-replace "`r?`n`r?`n",'</p><p>')-replace "`r?`n",'<br/>'))+'</p>'
-}
 function Get-IsmControls{
   [CmdletBinding()]param([Parameter(Mandatory)]$Catalog,[switch]$IncludePrinciples)
   $out=[Collections.Generic.List[object]]::new()
@@ -40,7 +35,7 @@ function Get-Headers([string]$Pat){
 function Invoke-Ado([string]$Method,[string]$Uri,[hashtable]$Headers,$Body,[string]$ContentType='application/json'){
   $a=@{Method=$Method;Uri=$Uri;Headers=$Headers;ContentType=$ContentType}; if($null-ne$Body){$a.Body=$Body|ConvertTo-Json -Depth 20 -Compress}; Invoke-RestMethod @a
 }
-function Source-Value($c,[string]$source){switch($source){Id{$c.Id} Title{$c.Title} Statement{ConvertTo-Html $c.Statement} Revision{$c.Revision} Updated{$c.Updated} Applicability{$c.Applicability} Guideline{$c.Guideline} Section{$c.Section} Class{$c.Class} default{throw "Unknown field-map source '$source'."}}}
+function Source-Value($c,[string]$source){switch($source){Id{$c.Id} Title{$c.Title} Statement{$c.Statement} Revision{$c.Revision} Updated{$c.Updated} Applicability{$c.Applicability} Guideline{$c.Guideline} Section{$c.Section} Class{$c.Class} default{throw "Unknown field-map source '$source'."}}}
 function Patch([string]$op,[string]$field,$value){@{op=$op;path='/fields/'+($field-replace'~','~0'-replace'/','~1');value=$value}}
 
 function Sync-IsmAzureDevOps{

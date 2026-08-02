@@ -1,6 +1,6 @@
 # ASD ISM Azure DevOps updater
 
-PowerShell 7 utility that synchronises ASD ISM controls from the published OSCAL JSON catalog into Azure DevOps work items. It defaults to a safe preview and updates only mapped fields.
+PowerShell 7 utility that synchronises ASD ISM controls from the published OSCAL JSON catalog into Azure DevOps work items. It defaults to a safe preview and updates only mapped fields. Control statements are preserved as Markdown from the OSCAL source rather than converted to HTML.
 
 ## Preview
 
